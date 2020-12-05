@@ -27,9 +27,11 @@ function generator(source, dest, metadata = {}) {
             .clean(true)
             .use((files, metalsmith, callback) => {
                 const data = metalsmith.metadata();
+                console.log(Object.keys(files), '=======================');
                 Object.keys(files).forEach(file => {
                     // files[file].contents 是个文件流 Buffer类型
                     const context = files[file].contents.toString();
+                    console.log(file ,'2222');
                     const str = Handlebars.compile(context)(data);
                     files[file].contents = Buffer.from(str);
                 });
@@ -60,6 +62,7 @@ async function create(args) {
     const folderName = args[0];
     const folderPath = path.resolve(process.cwd(), folderName);
     const TEMPDIR = path.resolve(process.cwd(), '.TEMPLATE');
+    console.log(TEMPDIR, 'TEMPDIRTEMPDIR');
     const state = isExistFolder(folderPath);
     if (!state) {
         await loading(download, '模板下载中...')('Hrero/ag-admin-nest-tmp', TEMPDIR);
